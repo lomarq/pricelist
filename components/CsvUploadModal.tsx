@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Product, PriceTier } from '../types';
-import { CloseIcon } from './icons/CloseIcon';
-import { UploadIcon } from './icons/UploadIcon';
+import { Product, PriceTier } from '../types.ts';
+import { CloseIcon } from './icons/CloseIcon.tsx';
+import { UploadIcon } from './icons/UploadIcon.tsx';
 
 interface CsvUploadModalProps {
   onClose: () => void;

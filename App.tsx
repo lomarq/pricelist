@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Header } from './components/Header';
-import { SearchBar } from './components/SearchBar';
-import { ProductList } from './components/ProductList';
-import { EditPriceModal } from './components/EditPriceModal';
-import { PasswordModal } from './components/PasswordModal';
-import { DbUploadModal } from './components/DbUploadModal';
-import { CsvUploadModal } from './components/CsvUploadModal';
-import { TariffModal } from './components/TariffModal';
-import { ChangePasswordModal } from './components/ChangePasswordModal';
-import { UploadLogoModal } from './components/UploadLogoModal';
-import { Product, UserRole } from './types';
-import * as api from './services/googleSheetsService';
-import { UploadIcon } from './components/icons/UploadIcon';
-import { TagIcon } from './components/icons/TagIcon';
-import { SaveIcon } from './components/icons/SaveIcon';
+import { Header } from './components/Header.tsx';
+import { SearchBar } from './components/SearchBar.tsx';
+import { ProductList } from './components/ProductList.tsx';
+import { EditPriceModal } from './components/EditPriceModal.tsx';
+import { PasswordModal } from './components/PasswordModal.tsx';
+import { DbUploadModal } from './components/DbUploadModal.tsx';
+import { CsvUploadModal } from './components/CsvUploadModal.tsx';
+import { TariffModal } from './components/TariffModal.tsx';
+import { ChangePasswordModal } from './components/ChangePasswordModal.tsx';
+import { UploadLogoModal } from './components/UploadLogoModal.tsx';
+import { Product, UserRole } from './types.ts';
+import * as api from './services/googleSheetsService.ts';
+import { UploadIcon } from './components/icons/UploadIcon.tsx';
+import { TagIcon } from './components/icons/TagIcon.tsx';
+import { SaveIcon } from './components/icons/SaveIcon.tsx';
 
 
 function App() {

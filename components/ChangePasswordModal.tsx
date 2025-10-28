@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CloseIcon } from './icons/CloseIcon';
-import { LockIcon } from './icons/LockIcon';
+import { CloseIcon } from './icons/CloseIcon.tsx';
+import { LockIcon } from './icons/LockIcon.tsx';
 
 interface ChangePasswordModalProps {
   onClose: () => void;

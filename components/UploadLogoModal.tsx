@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CloseIcon } from './icons/CloseIcon';
-import { UploadIcon } from './icons/UploadIcon';
+import { CloseIcon } from './icons/CloseIcon.tsx';
+import { UploadIcon } from './icons/UploadIcon.tsx';
 
 interface UploadLogoModalProps {
   onClose: () => void;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Product, UserRole } from '../types';
-import { EditIcon } from './icons/EditIcon';
+import { Product, UserRole } from '../types.ts';
+import { EditIcon } from './icons/EditIcon.tsx';
 
 interface ProductCardProps {
   product: Product;

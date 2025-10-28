@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Product } from '../types';
-import { CloseIcon } from './icons/CloseIcon';
-import { TagIcon } from './icons/TagIcon';
+import { Product } from '../types.ts';
+import { CloseIcon } from './icons/CloseIcon.tsx';
+import { TagIcon } from './icons/TagIcon.tsx';
 
 interface TariffModalProps {
   products: Product[];

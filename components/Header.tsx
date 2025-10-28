@@ -1,8 +1,8 @@
 import React from 'react';
-import { UserRole } from '../types';
-import { KeyIcon } from './icons/KeyIcon';
-import { LogoIcon } from './icons/LogoIcon';
-import { ImageIcon } from './icons/ImageIcon';
+import { UserRole } from '../types.ts';
+import { KeyIcon } from './icons/KeyIcon.tsx';
+import { LogoIcon } from './icons/LogoIcon.tsx';
+import { ImageIcon } from './icons/ImageIcon.tsx';
 
 interface HeaderProps {
   userRole: UserRole;

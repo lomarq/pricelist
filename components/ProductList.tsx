@@ -1,7 +1,8 @@
 
+
 import React from 'react';
-import { ProductCard } from './ProductCard';
-import { Product, UserRole } from '../types';
+import { ProductCard } from './ProductCard.tsx';
+import { Product, UserRole } from '../types.ts';
 
 interface ProductListProps {
   products: Product[];

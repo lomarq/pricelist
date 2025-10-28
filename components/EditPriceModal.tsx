@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Product, PriceTier } from '../types';
-import { CloseIcon } from './icons/CloseIcon';
-import { SaveIcon } from './icons/SaveIcon';
+import { Product, PriceTier } from '../types.ts';
+import { CloseIcon } from './icons/CloseIcon.tsx';
+import { SaveIcon } from './icons/SaveIcon.tsx';
 
 interface EditPriceModalProps {
   product: Product;
