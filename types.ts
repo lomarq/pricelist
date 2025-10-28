@@ -14,3 +14,9 @@ export interface Product {
   priceTiers: PriceTier[];
   tariff?: number; // Optional tariff percentage
 }
+
+export interface AppState {
+  products: Product[];
+  password?: string;
+  logo?: string | null;
+}

@@ -1,107 +1,118 @@
 import { Product } from '../types';
-import { INITIAL_PRODUCTS } from '../constants';
 
-const PRODUCTS_STORAGE_KEY = 'price_list_manager_products';
-const PASSWORD_STORAGE_KEY = 'price_list_manager_password';
-const LOGO_STORAGE_KEY = 'price_list_manager_logo';
-const DEFAULT_PASSWORD = 'admin123';
-
-// Simulate network delay
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-
-/**
- * Saves the entire list of products to storage.
- */
-const saveAllProducts = (products: Product[]): void => {
-    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(products));
-};
-
-/**
- * Initializes the local storage with initial data if it's not already present.
- */
-export const connectAndInitialize = async (): Promise<void> => {
-    await delay(500); // Simulate connection delay
-    if (!localStorage.getItem(PRODUCTS_STORAGE_KEY)) {
-        saveAllProducts(INITIAL_PRODUCTS);
-    }
-    if (!localStorage.getItem(PASSWORD_STORAGE_KEY)) {
-        localStorage.setItem(PASSWORD_STORAGE_KEY, DEFAULT_PASSWORD);
-    }
-};
-
-/**
- * Fetches all products from localStorage.
- */
-export const getProducts = async (): Promise<Product[]> => {
-  console.log('Fetching products from mock service (localStorage)...');
-  await delay(1000);
-  const data = localStorage.getItem(PRODUCTS_STORAGE_KEY);
-  if (!data) {
-    await connectAndInitialize();
-    const initializedData = localStorage.getItem(PRODUCTS_STORAGE_KEY);
-    return initializedData ? JSON.parse(initializedData) : [];
-  }
-  return JSON.parse(data);
-};
-
-/**
- * Updates a single product in localStorage.
- */
-export const updateProduct = async (updatedProduct: Product): Promise<Product> => {
-  console.log(`Updating product ${updatedProduct.id} in mock service (localStorage)...`);
-  await delay(700);
-  
-  const currentProducts = await getProducts();
-  const index = currentProducts.findIndex(p => p.id === updatedProduct.id);
-
-  if (index === -1) {
-    throw new Error('Product not found');
-  }
-  
-  currentProducts[index] = { ...updatedProduct };
-  saveAllProducts(currentProducts);
-  
-  return JSON.parse(JSON.stringify(updatedProduct));
-};
-
-/**
- * Updates multiple products at once.
- */
-export const batchUpdateProducts = async(updatedProducts: Product[]): Promise<Product[]> => {
-    console.log('Batch updating products in mock service (localStorage)...');
-    await delay(1200);
-    saveAllProducts(updatedProducts);
-    return JSON.parse(JSON.stringify(updatedProducts));
+interface AppData {
+  products: Product[];
+  password?: string;
+  logo?: string | null;
 }
 
+const SESSION_STORAGE_KEY = 'price_manager_session_data';
+const DEFAULT_PASSWORD = 'admin123';
+
+// --- Private Helper Functions ---
+
+const getDataFromSession = (): AppData | null => {
+  try {
+    const storedData = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    return storedData ? JSON.parse(storedData) : null;
+  } catch (error) {
+    console.error("Error parsing session data", error);
+    return null;
+  }
+};
+
+const saveDataToSession = (data: AppData): void => {
+  sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(data));
+};
+
+// --- Public API Functions ---
+
 /**
- * Retrieves the editor password from local storage.
+ * Initializes the application data.
+ * 1. Tries to fetch the master data file from the server.
+ * 2. If successful, stores it in the session.
+ * 3. If it fails (e.g., local development), it creates a default empty state.
  */
-export const getPassword = async (): Promise<string> => {
-    await delay(100);
-    return localStorage.getItem(PASSWORD_STORAGE_KEY) || DEFAULT_PASSWORD;
+export const initializeData = async (): Promise<void> => {
+  if (getDataFromSession()) {
+    console.log("Data already initialized in session.");
+    return;
+  }
+  
+  try {
+    console.log("Fetching initial data from /server/db.json...");
+    const response = await fetch('/server/db.json');
+    if (!response.ok) {
+      throw new Error(`Server returned ${response.status}`);
+    }
+    const data: AppData = await response.json();
+    saveDataToSession(data);
+    console.log("Successfully initialized data from server file.");
+  } catch (error) {
+    console.warn("Could not fetch /server/db.json. Initializing with empty state.", error);
+    // Fallback for local development if server file is not available
+    saveDataToSession({ products: [], password: DEFAULT_PASSWORD, logo: null });
+  }
 };
 
 /**
- * Sets a new editor password in local storage.
+ * Retrieves the entire current application state from the session.
  */
-export const setPassword = async (newPassword: string): Promise<void> => {
-    await delay(500);
-    localStorage.setItem(PASSWORD_STORAGE_KEY, newPassword);
+export const getFullDataState = (): AppData => {
+    return getDataFromSession() || { products: [], password: DEFAULT_PASSWORD, logo: null };
 };
 
 /**
- * Retrieves the logo from local storage.
+ * Replaces the entire application state with new data from an uploaded file.
  */
-export const getLogo = async (): Promise<string | null> => {
-    await delay(100);
-    return localStorage.getItem(LOGO_STORAGE_KEY);
+export const setFullDataState = async (data: AppData): Promise<void> => {
+    await new Promise(resolve => setTimeout(resolve, 250)); // Simulate async save
+    saveDataToSession(data);
 };
 
-/**
- * Sets a new logo in local storage.
- */
-export const setLogo = async (logoBase64: string): Promise<void> => {
-    await delay(500);
-    localStorage.setItem(LOGO_STORAGE_KEY, logoBase64);
+
+// --- Data Accessors and Mutators ---
+
+export const fetchProducts = async (): Promise<Product[]> => {
+  await new Promise(resolve => setTimeout(resolve, 250)); // Simulate network latency
+  return getFullDataState().products;
 };
+
+export const updateSingleProduct = async (productToUpdate: Product): Promise<void> => {
+    await new Promise(resolve => setTimeout(resolve, 250));
+    const data = getFullDataState();
+    const updatedProducts = data.products.map(p => p.id === productToUpdate.id ? productToUpdate : p);
+    saveDataToSession({ ...data, products: updatedProducts });
+};
+
+export const saveAllProducts = async (newProducts: Product[]): Promise<void> => {
+  await new Promise(resolve => setTimeout(resolve, 250));
+  const data = getFullDataState();
+  saveDataToSession({ ...data, products: newProducts });
+};
+
+export const verifyPassword = async (password: string): Promise<boolean> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const storedPassword = getFullDataState().password || DEFAULT_PASSWORD;
+    return password === storedPassword;
+};
+
+export const changePassword = async (currentPassword: string, newPassword: string): Promise<void> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const data = getFullDataState();
+    const storedPassword = data.password || DEFAULT_PASSWORD;
+    if (currentPassword !== storedPassword) {
+        throw new Error("Current password is incorrect.");
+    }
+    saveDataToSession({ ...data, password: newPassword });
+};
+
+export const getLogo = (): string | null => {
+    return getFullDataState().logo || null;
+}
+
+export const saveLogo = async (logoBase64: string): Promise<void> => {
+    await new Promise(resolve => setTimeout(resolve, 250));
+    const data = getFullDataState();
+    saveDataToSession({ ...data, logo: logoBase64 });
+}
