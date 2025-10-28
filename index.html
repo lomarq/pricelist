@@ -15,9 +15,12 @@
   }
 }
 </script>
+    <!-- 1. Add Babel for in-browser transpilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
   <body class="bg-gray-100 dark:bg-gray-900">
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <!-- 2. Change the script type to "text/babel" to enable transpilation -->
+    <script type="text/babel" data-type="module" src="./index.tsx"></script>
   </body>
 </html>
