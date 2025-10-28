@@ -40,8 +40,8 @@ export const initializeData = async (): Promise<void> => {
   }
   
   try {
-    console.log("Fetching initial data from /server/db.json...");
-    const response = await fetch('/server/db.json');
+    console.log("Fetching initial data from ./server/db.json...");
+    const response = await fetch('./server/db.json');
     if (!response.ok) {
       throw new Error(`Server returned ${response.status}`);
     }
@@ -49,7 +49,7 @@ export const initializeData = async (): Promise<void> => {
     saveDataToSession(data);
     console.log("Successfully initialized data from server file.");
   } catch (error) {
-    console.warn("Could not fetch /server/db.json. Initializing with empty state.", error);
+    console.warn("Could not fetch ./server/db.json. Initializing with empty state.", error);
     // Fallback for local development if server file is not available
     saveDataToSession({ products: [], password: DEFAULT_PASSWORD, logo: null });
   }
