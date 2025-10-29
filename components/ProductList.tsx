@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { ProductCard } from './ProductCard.tsx';
 import { Product, UserRole } from '../types.ts';

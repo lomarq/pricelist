@@ -1,17 +1,11 @@
-import { Product } from '../types.ts';
-
-interface AppData {
-  products: Product[];
-  password?: string;
-  logo?: string | null;
-}
+import { Product, AppState } from '../types.ts';
 
 const SESSION_STORAGE_KEY = 'price_manager_session_data';
 const DEFAULT_PASSWORD = 'admin123';
 
 // --- Private Helper Functions ---
 
-const getDataFromSession = (): AppData | null => {
+const getDataFromSession = (): AppState | null => {
   try {
     const storedData = sessionStorage.getItem(SESSION_STORAGE_KEY);
     return storedData ? JSON.parse(storedData) : null;
@@ -21,7 +15,7 @@ const getDataFromSession = (): AppData | null => {
   }
 };
 
-const saveDataToSession = (data: AppData): void => {
+const saveDataToSession = (data: AppState): void => {
   sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(data));
 };
 
@@ -45,7 +39,7 @@ export const initializeData = async (): Promise<void> => {
     if (!response.ok) {
       throw new Error(`Server returned ${response.status}`);
     }
-    const data: AppData = await response.json();
+    const data: AppState = await response.json();
     saveDataToSession(data);
     console.log("Successfully initialized data from server file.");
   } catch (error) {
@@ -58,14 +52,14 @@ export const initializeData = async (): Promise<void> => {
 /**
  * Retrieves the entire current application state from the session.
  */
-export const getFullDataState = (): AppData => {
+export const getFullDataState = (): AppState => {
     return getDataFromSession() || { products: [], password: DEFAULT_PASSWORD, logo: null };
 };
 
 /**
  * Replaces the entire application state with new data from an uploaded file.
  */
-export const setFullDataState = async (data: AppData): Promise<void> => {
+export const setFullDataState = async (data: AppState): Promise<void> => {
     await new Promise(resolve => setTimeout(resolve, 250)); // Simulate async save
     saveDataToSession(data);
 };
