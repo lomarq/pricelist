@@ -1,3 +1,3 @@
-// Fix: Replaced invalid file content with a valid empty module export.
-// This file is a placeholder for future constants and is not currently in use.
+// FIX: This file was replaced with valid empty module content to resolve compilation errors from placeholder text.
+// This file can be used for application-wide constants.
 export {};

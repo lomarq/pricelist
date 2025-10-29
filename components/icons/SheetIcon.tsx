@@ -1,4 +1,4 @@
-// Fix: Replaced invalid file content with a valid placeholder React icon component.
+// FIX: This file was replaced with a valid placeholder icon component to resolve compilation errors from placeholder text.
 import React from 'react';
 
 export const SheetIcon: React.FC = () => (
