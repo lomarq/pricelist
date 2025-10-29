@@ -1,9 +1,8 @@
 # Configuration for deploying this static site on Render.
 
 services:
-  - type: static_site
+  - type: static # This was corrected from 'static_site'
     name: price-list-manager
-    env: static
     # The build command is empty because we are transpiling in the browser.
     buildCommand: ""
     # The publish directory is the root, where index.html is located.
