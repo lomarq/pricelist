@@ -1,4 +1,4 @@
-import { Product, AppState } from '../types.ts';
+import { Product, AppState } from './types.ts';
 
 const SESSION_STORAGE_KEY = 'price_manager_session_data';
 const DEFAULT_PASSWORD = 'admin123';
